@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { styles } from './mapstyles';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +16,11 @@ export class AppComponent implements OnInit {
   private infoWindow: google.maps.InfoWindow | undefined;
 
   ngOnInit(): void {
-    let loader = new Loader({
-      apiKey: '--apikey--'
-    })
 
+    let loader = new Loader({
+      apiKey: environment.GOOGLE_APIKEY,
+    });
     loader.load().then(() => {
-      console.log('loaded gmaps')
 
       const location = { lat: 51.233334, lng: 	6.783333 }
 
@@ -58,9 +58,10 @@ export class AppComponent implements OnInit {
           };
 
           this.infoWindow?.setPosition(pos);
-          this.infoWindow?.open(this.map);
+          //this.infoWindow?.open(this.map);
           this.map?.setCenter(pos);
           this.createPin(pos);
+          this.map?.setZoom(9);
         },
         () => {
           if(this.infoWindow != undefined)
