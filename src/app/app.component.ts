@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { styles } from './mapstyles';
 import { environment } from 'src/environments/environment';
+import { isNull } from '@angular/compiler/src/output/output_ast';
+import { FormsModule } from '@angular/forms';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +13,29 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent implements OnInit {
 
+  //#region PROPERTIES
+
   title = 'google-maps';
 
   private map: google.maps.Map | undefined;
   private infoWindow: google.maps.InfoWindow | undefined;
+  private _searchPlace = '';
 
+  get SearchPlace(): string {
+    return this._searchPlace;
+  }
+
+  set SearchPlace(value: string) {
+    this._searchPlace = value;
+  }
+  //#endregion 
+
+  
   ngOnInit(): void {
 
     let loader = new Loader({
       apiKey: environment.GOOGLE_APIKEY,
+      libraries: ['places']
     });
     loader.load().then(() => {
 
@@ -33,19 +50,16 @@ export class AppComponent implements OnInit {
           styles: styles
         });
 
-        const marker = new google.maps.Marker({
-          position: location,
-          map: this.map,
-        });
+        this.initAutocomplete();
       }
-    })
+    });
   }
+
   /**
    * activate geolocation and set the pin on the current location
    * @returns 
    */
   findMyLocation(): void{
-    console.log("sono qui");
     if(this.infoWindow === undefined )
       return;
 
@@ -99,5 +113,86 @@ export class AppComponent implements OnInit {
     );
     infoWindow.open(this.map);
   }
+
+  /**Create the searchBox for the locations  */
+initAutocomplete(): void {
+
+  const map: google.maps.Map = new google.maps.Map(
+    document.getElementById("map") as HTMLElement,
+    {
+      center: { lat: -33.8688, lng: 151.2195 },
+      zoom: 13,
+      mapTypeId: "roadmap",
+    }
+  );
+
+  // Create the search box and link it to the UI element.
+  const input = document.getElementById("pac-input") as HTMLInputElement;
+  console.log(input);
+  const searchBox = new google.maps.places.SearchBox(input);
+  console.log(searchBox);
+
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener("bounds_changed", () => {
+    searchBox.setBounds(this.map?.getBounds() as google.maps.LatLngBounds);
+  });
+
+  let markers: google.maps.Marker[] = [];
+
+  // Listen for the event fired when the user selects a prediction and retrieve
+  // more details for that place.
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+
+    if (places?.length == 0) {
+      return;
+    }
+
+    // Clear out the old markers.
+    markers.forEach((marker) => {
+      marker.setMap(null);
+    });
+    markers = [];
+
+    // For each place, get the icon, name and location.
+    const bounds = new google.maps.LatLngBounds();
+
+    places?.forEach((place) => {
+      if (!place.geometry || !place.geometry.location) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+
+      const icon = {
+        url: place.icon as string,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25),
+      };
+
+      // Create a marker for each place.
+      markers.push(
+        new google.maps.Marker({
+          map,
+          icon,
+          title: place.name,
+          position: place.geometry.location,
+        })
+      );
+
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+
+    this.map?.fitBounds(bounds);
+  });
+}
   
 }
