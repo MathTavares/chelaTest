@@ -136,7 +136,7 @@ initAutocomplete(): void {
 
   // Bias the SearchBox results towards current map's viewport.
   map.addListener("bounds_changed", () => {
-    searchBox.setBounds(this.map?.getBounds() as google.maps.LatLngBounds);
+    searchBox.setBounds(map?.getBounds() as google.maps.LatLngBounds);
   });
 
   let markers: google.maps.Marker[] = [];
@@ -191,7 +191,7 @@ initAutocomplete(): void {
       }
     });
 
-    this.map?.fitBounds(bounds);
+    map?.fitBounds(bounds);
   });
 }
   
