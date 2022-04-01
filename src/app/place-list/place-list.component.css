@@ -1,0 +1,33 @@
+.drag-box{
+    width: 150px;
+    height: 150px;
+    background-color: gainsboro;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+}
+
+.cdk-drag-preview{
+    background-color: gainsboro;
+    box-shadow: 0px 0px 8px 2px gainsboro;
+}
+
+.cdk-drag-placeholder{
+    opacity: 0;
+}
+
+.cdk-drag-animation{
+    transition: trasform 200ms cubic-bezier(0, 0, 0.2, 0);
+}
+
+.bounding-box{
+    border: 1px solid gainsboro;
+    height: max-content;
+}
+
+.drag-item{
+    padding: 1em;
+    border: 1px solid grey;
+    background-color: white;
+}

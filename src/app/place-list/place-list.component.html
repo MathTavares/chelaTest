@@ -1,0 +1,17 @@
+<!-- <div class="h-75 bounding-box">
+    <div cdkDrag cdkDragBoundary=".bounding-box" 
+    cdkDragLockAxis="y"
+    class="drag-box">
+        lorem ipsum
+    </div>
+</div> -->
+
+<div cdkDropList
+(cdkDropListDropped)="onDrop($event)"
+[cdkDropListData]="ownedAnimal">
+    <div cdkDrag
+    class="drag-item" 
+    *ngFor="let animal of ownedAnimal">
+        {{animal}}
+    </div>
+</div>
