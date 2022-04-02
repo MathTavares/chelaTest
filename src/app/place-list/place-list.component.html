@@ -8,10 +8,10 @@
 
 <div cdkDropList
 (cdkDropListDropped)="onDrop($event)"
-[cdkDropListData]="ownedAnimal">
+[cdkDropListData]="listOfPlaces">
     <div cdkDrag
     class="drag-item" 
-    *ngFor="let animal of ownedAnimal">
+    *ngFor="let animal of listOfPlaces">
         {{animal}}
     </div>
 </div>

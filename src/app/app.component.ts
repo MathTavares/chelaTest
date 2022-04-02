@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
   private map: google.maps.Map | undefined;
   private infoWindow: google.maps.InfoWindow | undefined;
   private _searchPlace = '';
+  public newPlaceResult!: google.maps.places.PlaceResult;
 
   get SearchPlace(): string {
     return this._searchPlace;
@@ -148,20 +149,23 @@ export class AppComponent implements OnInit {
       }
 
       // Clear out the old markers.
-      markers.forEach((marker) => {
-        marker.setMap(null);
-      });
-      markers = [];
+      // markers.forEach((marker) => {
+      //   marker.setMap(null);
+      // });
+      // markers = [];
 
       // For each place, get the icon, name and location.
       const bounds = new google.maps.LatLngBounds();
 
       places?.forEach((place) => {
+
         if (!place.geometry || !place.geometry.location) {
           console.log("Returned place contains no geometry");
           return;
         }
 
+        this.newPlaceResult = place;
+        
         const icon = {
           url: place.icon as string,
           size: new google.maps.Size(71, 71),
