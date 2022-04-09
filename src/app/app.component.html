@@ -1,21 +1,6 @@
 <div class="row h-100">
-  <div class=" col-4">
+  <div class=" col-6" id="listWrapper">
     <h2>placeholder lista</h2>
-    <app-place-list [newPlaceResult]="newPlaceResult" ></app-place-list>
-  </div>
-  <div class="col-8">
-    <div class="row">
-      
-      <div class="col-8">
-        <h2>placeholder mappa</h2>
-      </div>
-      <div class="col-4">
-        <button (click)='findMyLocation()'> dove sono</button>
-
-      </div>
-      
-    </div>
-    
     <div class='col-md-4'>
       <input
       id="pac-input"
@@ -24,7 +9,26 @@
       placeholder="Search Box"
     />
     </div>
+    <app-place-list [newPlaceResult]="newPlaceResult" ></app-place-list>
+    <h2 *ngIf="tempoDiPercorenza">tempo di percorenza: {{tempoDiPercorenza}}</h2>
+  </div>
+
+  <div class="col-6">
+    <div class="row">
+      
+      <div class="col-8">
+        <h2>placeholder mappa</h2>
+      </div>
+      <div class="col-4">
+        <button (click)='calcRoute()'> indicazioni</button>
+        <button (click)='findMyLocation()'> dove sono</button>
+
+      </div>
+      
+    </div>
+    
     <div class="halfMap" id="map"></div>
+    <div id="sidebar"></div>
   </div>
 </div>
 

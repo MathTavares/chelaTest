@@ -21,6 +21,10 @@ export class AppComponent implements OnInit {
   private infoWindow: google.maps.InfoWindow | undefined;
   private _searchPlace = '';
   public newPlaceResult!: google.maps.places.PlaceResult;
+  public places: google.maps.places.PlaceResult[] = [];
+  private directionsService!: google.maps.DirectionsService;
+  private directionsRenderer!: google.maps.DirectionsRenderer;
+  public tempoDiPercorenza: string = "";
 
   get SearchPlace(): string {
     return this._searchPlace;
@@ -51,6 +55,8 @@ export class AppComponent implements OnInit {
           styles: styles
         });
 
+        this.directionsService = new google.maps.DirectionsService();
+        this.directionsRenderer = new google.maps.DirectionsRenderer();
         this.initAutocomplete();
       }
     });
@@ -130,7 +136,6 @@ export class AppComponent implements OnInit {
     const input = document.getElementById("pac-input") as HTMLInputElement;
     const searchBox = new google.maps.places.SearchBox(input);
 
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
     // Bias the SearchBox results towards current map's viewport.
     map.addListener("bounds_changed", () => {
@@ -165,7 +170,9 @@ export class AppComponent implements OnInit {
         }
 
         this.newPlaceResult = place;
-        
+
+        this.places.push(this.newPlaceResult);
+
         const icon = {
           url: place.icon as string,
           size: new google.maps.Size(71, 71),
@@ -196,4 +203,69 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /** Calculate the route between the points on the map */
+  calcRoute() {
+
+    if (this.places.length < 2) {
+      window.alert("Seleziona almeno 2 destinazioni");
+      console.log(this.places.length);
+      return;
+    }
+
+    const waypts: google.maps.DirectionsWaypoint[] = [];
+    //if use this.map render does not work
+    const map: google.maps.Map = new google.maps.Map(
+      document.getElementById("map") as HTMLElement,
+      {
+        center: { lat: -33.8688, lng: 151.2195 },
+        zoom: 13,
+        mapTypeId: "roadmap",
+      }
+    );
+    if (map != undefined) {
+      this.directionsRenderer.setMap(map);
+      this.directionsRenderer.setPanel(
+        document.getElementById("sidebar") as HTMLElement
+      );
+    }
+
+    let lastIndex = this.places.length - 1;
+    if (this.places.length > 2) {
+      for (let index = 1; index < lastIndex; index++) {
+        waypts.push({
+          location: { placeId: this.places[index].place_id },
+          stopover: true,
+        });
+      }
+    }
+    this.setCalculateRoute(this.places[0].place_id ?? "",
+      this.places[lastIndex].place_id ?? "", waypts);
+  }
+
+  setCalculateRoute(
+    originPlaceId: string,
+    destinationPlaceId: string,
+    waypoints: google.maps.DirectionsWaypoint[]
+  ) {
+    this.directionsService
+      .route({
+        origin: {
+          placeId: originPlaceId,
+        },
+        destination: {
+          placeId: destinationPlaceId,
+        },
+        travelMode: google.maps.TravelMode.DRIVING,
+        waypoints: waypoints
+      })
+      .then((response) => {
+        this.directionsRenderer.setDirections(response);
+        let timeInSec = 0;
+        response.routes[0].legs.forEach(element => {
+          timeInSec += element.duration?.value ?? 0;
+        });
+        this.tempoDiPercorenza = new Date(timeInSec * 1000).toISOString().slice(11, 19);
+      })
+      .catch((e) => window.alert("Directions request failed due to " + status));
+  }
 }
