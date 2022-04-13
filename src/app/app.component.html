@@ -1,35 +1,42 @@
-<div class="row h-100">
-  <div class=" col-6" id="listWrapper">
-    <h2>placeholder lista</h2>
-    <div class='col-md-4'>
-      <input
-      id="pac-input"
-      class="controls"
-      type="text"
-      placeholder="Search Box"
-    />
-    </div>
-    <app-place-list [newPlaceResult]="newPlaceResult" ></app-place-list>
-    <h2 *ngIf="tempoDiPercorenza">tempo di percorenza: {{tempoDiPercorenza}}</h2>
-  </div>
+<nb-layout>
 
-  <div class="col-6">
-    <div class="row">
-      
-      <div class="col-8">
-        <h2>placeholder mappa</h2>
-      </div>
-      <div class="col-4">
-        <button (click)='calcRoute()'> indicazioni</button>
-        <button (click)='findMyLocation()'> dove sono</button>
+  <nb-layout-header fixed>
+  <!-- Insert header here -->
+  </nb-layout-header>
 
+  <nb-layout-column>
+    <div class="row h-100">
+      <div class=" col-6" id="listWrapper">
+        <div class='col-md-4'>
+          <nb-form-field>
+            <nb-icon nbPrefix icon="search-outline" ></nb-icon>
+            <input type="text" id="pac-input" placeholder="Dove andiamo?" nbInput>
+          </nb-form-field>
+        </div>
+        <app-place-list [newPlaceResult]="newPlaceResult" ></app-place-list>
+        <h2 *ngIf="tempoDiPercorenza">tempo di percorenza: {{tempoDiPercorenza}}</h2>
       </div>
-      
+    
+      <div class="col-6">
+        <div class="row">
+          
+          <div class="col-4">
+            <button (click)='calcRoute()'> indicazioni</button>
+            <button (click)='findMyLocation()'> dove sono</button>  
+          </div>        
+        </div>
+        
+        <div class="halfMap" id="map"></div>
+        <div id="sidebar"></div>
+      </div>
     </div>
     
-    <div class="halfMap" id="map"></div>
-    <div id="sidebar"></div>
-  </div>
-</div>
+    <router-outlet></router-outlet>
+    
+  </nb-layout-column>
 
-<router-outlet></router-outlet>
+  <nb-layout-footer fixed>
+  <!-- Insert footer here -->
+  </nb-layout-footer>
+
+</nb-layout>

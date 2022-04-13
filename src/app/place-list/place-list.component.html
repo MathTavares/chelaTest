@@ -6,12 +6,17 @@
     </div>
 </div> -->
 
-<div cdkDropList
-(cdkDropListDropped)="onDrop($event)"
-[cdkDropListData]="listOfPlaces">
-    <div cdkDrag
-    class="drag-item" 
-    *ngFor="let animal of listOfPlaces">
-        {{animal}}
-    </div>
+<div cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="listOfPlaces">
+  <div cdkDrag class="drag-item" *ngFor="let place of listOfPlaces">
+   
+      <nb-card accent="primary" >
+        <nb-card-header> 
+                    {{place}}
+                  <nb-action icon="close-outline"></nb-action>
+        </nb-card-header>
+        <nb-card-body>
+
+        </nb-card-body>
+      </nb-card>
+  </div>
 </div>

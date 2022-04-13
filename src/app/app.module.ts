@@ -9,11 +9,16 @@ import { PlaceListComponent } from './place-list/place-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
+import { NbThemeModule, NbLayoutModule, NbActionsModule, NbInputModule, NbFormFieldModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { NbCardModule } from '@nebular/theme';
+import { WaypointCardComponent } from './waypoint-card/waypoint-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PlaceListComponent
+    PlaceListComponent,
+    WaypointCardComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +27,14 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     GooglePlaceModule,
     BrowserAnimationsModule,
-    DragDropModule
+    DragDropModule,
+    NbThemeModule.forRoot({ name: 'default' }),
+    NbLayoutModule,
+    NbEvaIconsModule,
+    NbCardModule,
+    NbActionsModule,
+    NbInputModule,
+    NbFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]
