@@ -1,21 +1,24 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { IPlaceModel, PlaceModel } from '../models/placeModel';
 
 @Component({
   selector: 'app-place-list',
   templateUrl: './place-list.component.html',
   styleUrls: ['./place-list.component.css']
 })
-export class PlaceListComponent implements OnInit {
+export class PlaceListComponent implements OnInit, OnChanges {
 
-  listOfPlaces: google.maps.places.PlaceResult[] = [];
+  listOfPlaces: IPlaceModel[] = [];
 
   constructor() { }
+  ngOnChanges(changes: SimpleChanges): void {
+  }
 
   ngOnInit(): void {
   }
 
-  onDrop(event: CdkDragDrop<google.maps.places.PlaceResult []>) {
+  onDrop(event: CdkDragDrop<IPlaceModel []>) {
     moveItemInArray(
       event.container.data,
       event.previousIndex,
