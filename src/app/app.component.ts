@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { styles } from './mapstyles';
 import { environment } from 'src/environments/environment';
 import { isNull } from '@angular/compiler/src/output/output_ast';
 import { FormsModule } from '@angular/forms';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { PlaceListComponent } from './place-list/place-list.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit{
 
   //#region PROPERTIES
 
@@ -21,10 +22,11 @@ export class AppComponent implements OnInit {
   private infoWindow: google.maps.InfoWindow | undefined;
   private _searchPlace = '';
   public newPlaceResult!: google.maps.places.PlaceResult;
-  public places: google.maps.places.PlaceResult[] = [];
+  //public places: google.maps.places.PlaceResult[] = [];
   private directionsService!: google.maps.DirectionsService;
   private directionsRenderer!: google.maps.DirectionsRenderer;
   public tempoDiPercorenza: string = "";
+  @ViewChild(PlaceListComponent) child: PlaceListComponent | undefined;
 
   get SearchPlace(): string {
     return this._searchPlace;
@@ -171,7 +173,7 @@ export class AppComponent implements OnInit {
 
         this.newPlaceResult = place;
 
-        this.places.push(this.newPlaceResult);
+        this.child?.listOfPlaces.push(this.newPlaceResult);
 
         const icon = {
           url: place.icon as string,
@@ -206,9 +208,17 @@ export class AppComponent implements OnInit {
   /** Calculate the route between the points on the map */
   calcRoute() {
 
-    if (this.places.length < 2) {
+    if(this.child?.listOfPlaces === undefined)
+    {
       window.alert("Seleziona almeno 2 destinazioni");
-      console.log(this.places.length);
+      return;
+    }
+
+    let places = this.child?.listOfPlaces;
+
+    if (places.length < 2) {
+      window.alert("Seleziona almeno 2 destinazioni");
+      console.log(places.length);
       return;
     }
 
@@ -229,17 +239,17 @@ export class AppComponent implements OnInit {
       );
     }
 
-    let lastIndex = this.places.length - 1;
-    if (this.places.length > 2) {
+    let lastIndex = places.length - 1;
+    if (places.length > 2) {
       for (let index = 1; index < lastIndex; index++) {
         waypts.push({
-          location: { placeId: this.places[index].place_id },
+          location: { placeId: places[index].place_id },
           stopover: true,
         });
       }
     }
-    this.setCalculateRoute(this.places[0].place_id ?? "",
-      this.places[lastIndex].place_id ?? "", waypts);
+    this.setCalculateRoute(places[0].place_id ?? "",
+      places[lastIndex].place_id ?? "", waypts);
   }
 
   setCalculateRoute(
@@ -268,4 +278,8 @@ export class AppComponent implements OnInit {
       })
       .catch((e) => window.alert("Directions request failed due to " + status));
   }
+  
+  ngAfterViewInit() {
+  }
+
 }

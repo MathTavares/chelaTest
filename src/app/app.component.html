@@ -2,6 +2,7 @@
 
   <nb-layout-header fixed>
   <!-- Insert header here -->
+  <nb-user id="userIcon" name="Chela Door" ></nb-user>
   </nb-layout-header>
 
   <nb-layout-column>
@@ -13,7 +14,7 @@
             <input type="text" id="pac-input" placeholder="Dove andiamo?" nbInput>
           </nb-form-field>
         </div>
-        <app-place-list [newPlaceResult]="newPlaceResult" ></app-place-list>
+        <app-place-list ></app-place-list>
         <h2 *ngIf="tempoDiPercorenza">tempo di percorenza: {{tempoDiPercorenza}}</h2>
       </div>
     

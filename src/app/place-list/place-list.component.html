@@ -1,18 +1,11 @@
-<!-- <div class="h-75 bounding-box">
-    <div cdkDrag cdkDragBoundary=".bounding-box" 
-    cdkDragLockAxis="y"
-    class="drag-box">
-        lorem ipsum
-    </div>
-</div> -->
 
 <div cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="listOfPlaces">
   <div cdkDrag class="drag-item" *ngFor="let place of listOfPlaces">
    
       <nb-card accent="primary" >
         <nb-card-header> 
-                    {{place}}
-                  <nb-action icon="close-outline"></nb-action>
+                    {{place.name}}
+                  <nb-action (click)='deletePlace(place)' icon="close-outline"></nb-action>
         </nb-card-header>
         <nb-card-body>
 

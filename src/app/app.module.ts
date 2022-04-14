@@ -9,7 +9,7 @@ import { PlaceListComponent } from './place-list/place-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { NbThemeModule, NbLayoutModule, NbActionsModule, NbInputModule, NbFormFieldModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbActionsModule, NbInputModule, NbFormFieldModule, NbUserModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbCardModule } from '@nebular/theme';
 import { WaypointCardComponent } from './waypoint-card/waypoint-card.component';
@@ -34,7 +34,8 @@ import { WaypointCardComponent } from './waypoint-card/waypoint-card.component';
     NbCardModule,
     NbActionsModule,
     NbInputModule,
-    NbFormFieldModule
+    NbFormFieldModule,
+    NbUserModule
   ],
   providers: [],
   bootstrap: [AppComponent]
