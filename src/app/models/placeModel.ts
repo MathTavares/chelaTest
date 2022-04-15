@@ -1,16 +1,18 @@
 export interface IPlaceModel {
     placeResult: google.maps.places.PlaceResult;
-    dwellTime: any;
+    hours: number;  
+    minutes: number;  
 }
 
 export class PlaceModel implements IPlaceModel {
    public placeResult!: google.maps.places.PlaceResult;
-   public dwellTime!: any;
+   public hours!: number;  
+   public minutes!: number;  
 
     constructor(placeResult: google.maps.places.PlaceResult){
         this.placeResult = placeResult;
-        this.dwellTime = new Date();
-        this.dwellTime.setHours(0,0,0,0);
+        this.hours = 0;
+        this.minutes = 0;
     }
 
 }

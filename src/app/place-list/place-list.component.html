@@ -5,8 +5,9 @@
       <nb-accordion-item>
         <nb-accordion-item-header>{{place.placeResult.name}}</nb-accordion-item-header>
         <nb-accordion-item-body>
-          Permanenza: <input nbInput [ngModel]="place.dwellTime" type="text" [nbTimepicker]="timepicker" />
-          <nb-timepicker #timepicker></nb-timepicker>
+          Sosta:  <input [(ngModel)]="place.hours" nbInput type="number" min="0" placeholder="hh"/>
+          <input [(ngModel)]="place.minutes" nbInput type="number" min="0" max="59" placeholder="min"/> 
+          
           <textarea id="TripNotes" nbInput fullWidth placeholder="Note di viaggio"></textarea>
         </nb-accordion-item-body>
       </nb-accordion-item>

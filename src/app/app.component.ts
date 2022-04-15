@@ -271,15 +271,27 @@ export class AppComponent implements OnInit, AfterViewInit{
       })
       .then((response) => {
         this.directionsRenderer.setDirections(response);
-        let timeInSec = 0;
-        response.routes[0].legs.forEach(element => {
-          timeInSec += element.duration?.value ?? 0;
-        });
+        let timeInSec = this.getTotalTime(response.routes[0].legs);
         this.tempoDiPercorenza = new Date(timeInSec * 1000).toISOString().slice(11, 19);
       })
       .catch((e) => window.alert("Directions request failed due to " + status));
   }
   
+  getTotalTime(legs: google.maps.DirectionsLeg[]): number{
+    let totalTime = 0;
+    //add dwell time off all waypoints
+    this.child?.listOfPlaces.forEach(placeModel =>{
+      totalTime += placeModel.hours * 3600 + placeModel.minutes * 60;
+    });
+
+    //add total trip time
+    legs.forEach(element => {
+      totalTime += element.duration?.value ?? 0;
+    });
+
+    return totalTime;
+  }
+
   ngAfterViewInit() {
   }
 
