@@ -26,7 +26,7 @@ export class PlaceListComponent implements OnInit, OnChanges {
     );
   }
 
-  deletePlace(place : google.maps.places.PlaceResult){
+  deletePlace(place : IPlaceModel){
     this.listOfPlaces.forEach( (item, index) => {
       if(item === place) this.listOfPlaces.splice(index,1);
     });
