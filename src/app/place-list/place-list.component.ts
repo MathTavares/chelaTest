@@ -1,17 +1,17 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { IPlaceModel, PlaceModel } from '../models/placeModel';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectorRef  } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { IPlaceModel } from '../models/placeModel';
 
 @Component({
   selector: 'app-place-list',
   templateUrl: './place-list.component.html',
-  styleUrls: ['./place-list.component.css']
+  styleUrls: ['./place-list.component.css'],
 })
 export class PlaceListComponent implements OnInit, OnChanges {
 
   listOfPlaces: IPlaceModel[] = [];
 
-  constructor() { }
+  constructor(  private changeDetection: ChangeDetectorRef) { }
   ngOnChanges(changes: SimpleChanges): void {
   }
 
@@ -24,6 +24,11 @@ export class PlaceListComponent implements OnInit, OnChanges {
       event.previousIndex,
       event.currentIndex
     );
+  }
+
+  addNewPlace(newPlaceResult: IPlaceModel){
+    this.listOfPlaces = this.listOfPlaces.concat(newPlaceResult);
+    this.changeDetection.detectChanges();
   }
 
   deletePlace(place : IPlaceModel){

@@ -6,7 +6,7 @@ import { isNull } from '@angular/compiler/src/output/output_ast';
 import { FormsModule } from '@angular/forms';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PlaceListComponent } from './place-list/place-list.component';
-import { PlaceModel } from './models/placeModel';
+import { IPlaceModel, PlaceModel } from './models/placeModel';
 
 @Component({
   selector: 'app-root',
@@ -19,15 +19,15 @@ export class AppComponent implements OnInit, AfterViewInit{
 
   title = 'google-maps';
 
-  private map: google.maps.Map | undefined;
-  private infoWindow: google.maps.InfoWindow | undefined;
+  private map: google.maps.Map;
+  private infoWindow: google.maps.InfoWindow;
   private _searchPlace = '';
   public newPlaceResult!: google.maps.places.PlaceResult;
   //public places: google.maps.places.PlaceResult[] = [];
   private directionsService!: google.maps.DirectionsService;
   private directionsRenderer!: google.maps.DirectionsRenderer;
   public tempoDiPercorenza: string = "";
-  @ViewChild(PlaceListComponent) child: PlaceListComponent | undefined;
+  @ViewChild(PlaceListComponent) child: PlaceListComponent;
 
   get SearchPlace(): string {
     return this._searchPlace;
@@ -174,7 +174,7 @@ export class AppComponent implements OnInit, AfterViewInit{
 
         this.newPlaceResult = place;
 
-        this.child?.listOfPlaces.push(new PlaceModel(this.newPlaceResult));
+        this.child?.addNewPlace(new PlaceModel(this.newPlaceResult));
 
         const icon = {
           url: place.icon as string,
