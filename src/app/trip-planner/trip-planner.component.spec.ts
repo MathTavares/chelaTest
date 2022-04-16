@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WaypointCardComponent } from './waypoint-card.component';
+import { TripPlannerComponent } from './trip-planner.component';
 
-describe('WaypointCardComponent', () => {
-  let component: WaypointCardComponent;
-  let fixture: ComponentFixture<WaypointCardComponent>;
+describe('TripPlannerComponent', () => {
+  let component: TripPlannerComponent;
+  let fixture: ComponentFixture<TripPlannerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WaypointCardComponent ]
+      declarations: [ TripPlannerComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WaypointCardComponent);
+    fixture = TestBed.createComponent(TripPlannerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

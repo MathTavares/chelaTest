@@ -9,16 +9,18 @@ import { PlaceListComponent } from './place-list/place-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { NbThemeModule, NbLayoutModule, NbActionsModule, NbInputModule, NbFormFieldModule, NbUserModule, NbAccordionModule, NbTimepickerModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbActionsModule, NbInputModule, NbFormFieldModule, NbUserModule, NbAccordionModule, NbTimepickerModule, NbSearchModule, NbSidebarModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbCardModule } from '@nebular/theme';
-import { WaypointCardComponent } from './waypoint-card/waypoint-card.component';
+import { AttractionPointsComponent } from './attraction-points/attraction-points.component';
+import { TripPlannerComponent } from './trip-planner/trip-planner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlaceListComponent,
-    WaypointCardComponent
+    AttractionPointsComponent,
+    TripPlannerComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +39,10 @@ import { WaypointCardComponent } from './waypoint-card/waypoint-card.component';
     NbFormFieldModule,
     NbUserModule,
     NbAccordionModule,
-    NbTimepickerModule.forRoot()
+    NbSearchModule,
+    NbSidebarModule,
+    NbTimepickerModule.forRoot(),
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
