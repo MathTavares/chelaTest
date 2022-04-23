@@ -14,13 +14,14 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbCardModule } from '@nebular/theme';
 import { AttractionPointsComponent } from './attraction-points/attraction-points.component';
 import { TripPlannerComponent } from './trip-planner/trip-planner.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlaceListComponent,
     AttractionPointsComponent,
-    TripPlannerComponent
+    TripPlannerComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +43,7 @@ import { TripPlannerComponent } from './trip-planner/trip-planner.component';
     NbSearchModule,
     NbSidebarModule,
     NbTimepickerModule.forRoot(),
+    HttpClientModule
     
   ],
   providers: [],

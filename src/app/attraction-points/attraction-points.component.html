@@ -1,32 +1,29 @@
-<nb-search type="rotate-layout"></nb-search>
+<!-- <nb-search type="rotate-layout" id="autocomplete" class="autocomplete-container" placeholder="cerca..."></nb-search> -->
+ <!-- <div id="autocomplete" class="autocomplete-container"></div>  -->
+ <nb-form-field id="searchBox">
+  <nb-icon nbPrefix icon="search-outline" ></nb-icon>
+  <input type="text" id="pac-input" placeholder="Dove andiamo?" nbInput>
+</nb-form-field> 
 
 <div class="card-row">
-  <div class="card-col">
-    <nb-card accent="info" size="tiny">
-      <nb-card-header>You searched for:</nb-card-header>
-      <nb-card-body>
-        <h3>{{ value || '-' }}</h3>
-      </nb-card-body>
-    </nb-card>
-    <nb-card size="tiny">
-      <nb-card-header>Tiny card</nb-card-header>
-    </nb-card>
-    <nb-card size="tiny">
-      <nb-card-header>Tiny card</nb-card-header>
-    </nb-card>
-  </div>
-  <div class="card-col">
-    <nb-card accent="info" size="tiny">
-      <nb-card-header>You searched for:</nb-card-header>
-      <nb-card-body>
-        <h3>{{ value || '-' }}</h3>
-      </nb-card-body>
-    </nb-card>
-    <nb-card size="tiny">
-      <nb-card-header>Tiny card</nb-card-header>
-    </nb-card>
-    <nb-card size="tiny">
-      <nb-card-header>Tiny card</nb-card-header>
-    </nb-card>
-  </div>
+  <div class="card-col" >
+    <div *ngFor="let geo of geoAttractions; index as i;">
+      <nb-card accent="info" size="tiny" *ngIf="i % 2 ===0">
+        <nb-card-header>Consiglio:</nb-card-header>
+        <nb-card-body>
+          <h3>{{ geo.address_line1 || '-' }}</h3>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>  <!-- END COLUMN-->
+  <div class="card-col" >
+    <div *ngFor="let geo of geoAttractions; index as i;">
+      <nb-card accent="info" size="tiny" *ngIf="i % 2 !==0">
+        <nb-card-header>Consiglio:</nb-card-header>
+        <nb-card-body>
+          <h3>{{ geo.address_line1 || '-' }}</h3>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div> <!-- END COLUMN-->
 </div>

@@ -46,7 +46,9 @@ const environmentFileContent = `
 
   export const environment = {
     production: ${isProduction},
-    GOOGLE_APIKEY: '${process.env.GOOGLE-APIKEY}'
+    GOOGLE_APIKEY: '${process.env.GOOGLE-APIKEY}',
+    GEOAPIFY: '${process.env.GEOAPIFY}'
+
   };
 `;
 
